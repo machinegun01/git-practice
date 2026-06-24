@@ -1,1 +1,1 @@
-Team: Perfomance Engineering
+Team: SRE and Performance
