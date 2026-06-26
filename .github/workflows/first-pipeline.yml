@@ -16,15 +16,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Print pipeline started
-        run: echo "Pipeline triggered — checking performance"
-
-      - name: Simulate SLA check
+      - name: Simulate JMeter test results
         run: |
-          echo "Running SLA threshold check..."
-          echo "Response time: 1.8s"
-          echo "SLA limit: 2.0s"
-          echo "SLA PASSED"
+          echo "JMeter test completed"
+          echo "2.4" > response_time.txt
+          cat response_time.txt
+
+      - name: Check SLA threshold
+        run: |
+          RESPONSE_TIME=$(cat response_time.txt)
+          SLA_LIMIT=2.0
+          echo "Response time: ${RESPONSE_TIME}s"
+          echo "SLA limit: ${SLA_LIMIT}s"
+          if (( $(echo "$RESPONSE_TIME > $SLA_LIMIT" | bc -l) )); then
+            echo "❌ SLA BREACHED — pipeline failing"
+            exit 1
+          else
+            echo "✅ SLA PASSED — response time within limit"
+          fi
 
       - name: Notify team
         run: echo "All checks passed — PR is safe to merge"
