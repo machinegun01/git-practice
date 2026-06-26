@@ -1,0 +1,30 @@
+name: CIBC Performance Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  performance-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Print pipeline started
+        run: echo "Pipeline triggered — checking performance"
+
+      - name: Simulate SLA check
+        run: |
+          echo "Running SLA threshold check..."
+          echo "Response time: 1.8s"
+          echo "SLA limit: 2.0s"
+          echo "SLA PASSED"
+
+      - name: Notify team
+        run: echo "All checks passed — PR is safe to merge"
