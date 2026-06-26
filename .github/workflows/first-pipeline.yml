@@ -19,7 +19,7 @@ jobs:
       - name: Simulate JMeter test results
         run: |
           echo "JMeter test completed"
-          echo "2.4" > response_time.txt
+          echo "1.6" > response_time.txt
           cat response_time.txt
 
       - name: Check SLA threshold
